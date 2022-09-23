@@ -1,0 +1,7 @@
+pandas==1.2.1
+scikit_learn==1.1.2
+scikit_surprise==1.1.2
+streamlit==1.11.0
+streamlit_option_menu==0.3.2
+surprise==0.1
+youtube_search==2.1.1
