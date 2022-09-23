@@ -1,2 +1,0 @@
-# Movie-Recommender
-- Enes FİLİZ
