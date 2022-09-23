@@ -4,6 +4,7 @@ from st_pages import st_content_based as scb
 from st_pages import st_memory_based as sm
 from st_pages import st_model_based as stm
 import utils
+
 # Customize
 st.set_page_config(layout="wide", page_title="Movie Recommender", initial_sidebar_state="expanded")
 
