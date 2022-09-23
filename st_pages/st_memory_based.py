@@ -1,7 +1,11 @@
 import streamlit as st
 import meta as mt
+import model_and_memory_based as mmb
+import utils
+from youtube_search import YoutubeSearch
 
-def main():
+
+def main(df_mm,df_small_ratings):
     st.header("💾 Bellek Tabanlı Tavsiye Sistemi 💾")
     st.write("---")
 
@@ -19,20 +23,51 @@ def main():
     st.image("assets/images/memory_based.jpg")
     st.write("---")
     st.subheader("Model 🎯")
+
     with st.expander("Model Fonksiyonu",
                      expanded=False):
         code = (mt.meta6)
         st.code(code, language='python')
 
     st.subheader("Youtube 🎯")
-    with st.expander("Videoları YT API Üzerinden Çekme İşlemi",
+    with st.expander("YT Üzerinden URL~Key Çekme İşlemi",
                      expanded=False):
         code = (mt.meta7)
         st.code(code, language='python')
 
     st.subheader("Ayrıntılar 🎯")
-    with st.expander("get_details Fonksiyonu",
+    with st.expander("Get_details Fonksiyonu",
                      expanded=False):
         code = (mt.meta8)
         st.code(code, language='python')
 
+    st.write("---")
+
+
+    userId = st.selectbox("UserId Belirleyin", df_small_ratings["userId"].unique())
+    option = st.selectbox(
+        'Modeli Belirleyiniz',
+        ('User Based', 'Item Based'))
+
+    if option == "User Based":
+        status = True
+    else:
+        status = False
+
+    button = st.button("Tavsiye Getir")
+
+    if button:
+
+        counter = st.text('Lütfen bekleyiniz ⏱️...yaklaşık 45 saniye sürebilir!')
+        movie_md = df_mm.copy()
+        trainset, ratings, movie_md = utils.mb_preprocessing(movie_md, df_small_ratings)
+        sim_ui = mmb.model(trainset, status)
+
+        # get_rec
+        result = mmb.get_recommendations(ratings,df_mm,userId,10,sim_ui)
+
+        movie_name, yt_url = utils.search(result)
+
+        counter.write("")
+
+        utils.get_details(df_mm,yt_url,movie_name)

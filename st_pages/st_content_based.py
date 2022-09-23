@@ -62,16 +62,13 @@ def main(df_mm, df_kw, df_credits):
 
     if button:
         counter = st.text('Lütfen bekleyiniz ⏱️... Yaklaşık 59 saniye sürebilir!')
-        print("Debug -1")
         movie_md = df_mm.copy()
         df = utils.preprocessing(movie_md, df_kw, df_credits)
-        print("Debug -2")
         similarity = cb.cosine_sim(df)
         rec_list = cb.recommendation(movie,df,similarity)
 
         yt_url = []
         movie_name = []
-        print("Debug -3")
 
         for i in rec_list:
             title = df.iloc[i[0]].title
@@ -79,28 +76,7 @@ def main(df_mm, df_kw, df_credits):
             result = YoutubeSearch(title + "Trailer", max_results=1).to_json()
             get_yt_key = result.split(",")[-1][16:36]
             yt_url.append("https://www.youtube.com"+get_yt_key)
-            print("Debug -4")
 
-        print(len(yt_url))
-        print("Debug -5")
         counter.text("")
-        print("Debug -6")
-        
+
         utils.get_details(df_mm,yt_url,movie_name)
-
-        print("Debug final")
-
-        """
-                for temp in range(3):
-            right_col, left_col = st.columns(2)
-            st.video(yt_url[temp])
-            left_col.video(yt_url[temp])
-            movie_title = list(df_mm[df_mm["title"] == movie_name[temp]].title)
-            right_col.subheader(movie_title[0])
-            movie_overview = list(df_mm[df_mm["title"] == movie_name[temp]].overview)
-            right_col.write(movie_overview[0])
-            movie_genres = list(df_mm[df_mm["title"] == movie_name[temp]].genres)
-            right_col.write(movie_genres)
-            imdb_id = list(df_mm[df_mm["title"] == movie_name[temp]].imdb_id)
-            right_col.markdown(f[![IMDB](https://img.shields.io/badge/IMDb-F5C518.svg?style=for-the-badge&logo=IMDb&logoColor=black)](https://www.imdb.com/title/{imdb_id[0]}/))
-        """

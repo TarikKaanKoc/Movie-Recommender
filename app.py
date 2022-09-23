@@ -116,6 +116,6 @@ if seleceted_page == "İçerik Tabanlı Tavsiye Sistemi":
 if seleceted_page == "Model Tabanlı Tavsiye Sistemi":
     stm.main(df_mm,df_small_ratings) # model based recommender - main funciton
 if seleceted_page == "Bellek Tabanlı Tavsiye Sistemi":
-    sm.main() # memory based reccomender - main funciton
+    sm.main(df_mm,df_small_ratings) # memory based reccomender - main funciton
 
 

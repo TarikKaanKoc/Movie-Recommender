@@ -3,7 +3,6 @@ import meta as mt
 from surprise.prediction_algorithms.matrix_factorization import SVD
 import model_and_memory_based as mmbr
 import utils
-from youtube_search import YoutubeSearch
 
 def main(df_mm, df_small_ratings):
 
@@ -51,7 +50,7 @@ def main(df_mm, df_small_ratings):
 
         counter = st.text('Lütfen bekleyiniz ⏱️...yaklaşık 45 saniye sürebilir!')
         movie_md = df_mm.copy()
-        trainset, ratings, movie_md = utils.mb_mb_preprocessing(movie_md, df_small_ratings)
+        trainset, ratings, movie_md = utils.mb_preprocessing(movie_md, df_small_ratings)
 
         # Initialize model ~ Cross-validate
         svd = SVD()
@@ -60,15 +59,7 @@ def main(df_mm, df_small_ratings):
         # get_rec
         result = mmbr.get_recommendations(ratings, movie_md, userId, top_n, svd)
 
-        movie_name = []
-        yt_url = []
-
-        for i in result:
-            title = [i][0][0]
-            movie_name.append(title)
-            result = YoutubeSearch(title + "Trailer", max_results=1).to_json()
-            get_yt_key = result.split(",")[-1][16:36]
-            yt_url.append("https://www.youtube.com" + get_yt_key)
+        movie_name, yt_url = utils.search(result)
 
         counter.write("")
 
