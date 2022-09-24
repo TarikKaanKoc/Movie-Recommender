@@ -141,7 +141,7 @@ def search(result):
         get_yt_key = result.split(",")[-1][16:36]
         yt_url.append("https://www.youtube.com" + get_yt_key)
 
-    return movie_name, 
+    return movie_name, yt_url
 
         """
 
