@@ -64,13 +64,13 @@ meta3 = """
 
 meta4 = """
         def mb_mb_preprocessing(df_mm,ratings):     
-    # movie dataframe with votes more than 55
+
     df_mm = df_mm[df_mm['vote_count']>100][['id','title']]
 
-    # IDs of movies with count more than 55
+
     movie_ids = [int(x) for x in df_mm['id'].values]
 
-    # Select ratings of movies with more than 55 counts
+   
     ratings = ratings[ratings['movieId'].isin(movie_ids)]
 
     # Reset Index
@@ -130,19 +130,18 @@ meta6 = """
         """
 
 meta7 = """
-        # get_rec
-        result = mmbr.get_recommendations(ratings, movie_md, userId, top_n, svd)
+def search(result):
+    movie_name = []
+    yt_url = []
 
-        movie_name = []
-        yt_url = []
+    for i in result:
+        title = [i][0][0]
+        movie_name.append(title)
+        result = YoutubeSearch(title + "Trailer", max_results=1).to_json()
+        get_yt_key = result.split(",")[-1][16:36]
+        yt_url.append("https://www.youtube.com" + get_yt_key)
 
-        for i in result:
-            title = [i][0][0]
-            movie_name.append(title)
-            result = YoutubeSearch(title + "Trailer", max_results=1).to_json()
-            get_watch = result.split(",")[-1]
-            get_yt_key = get_watch[16:36]
-            yt_url.append("https://www.youtube.com" + get_yt_key)
+    return movie_name, 
 
         """
 
